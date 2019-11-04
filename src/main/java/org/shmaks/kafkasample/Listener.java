@@ -35,7 +35,7 @@ public class Listener {
                 } catch (TransientDataAccessException temporary) {
                     throw temporary;
                 } catch (DataAccessException e) {
-                    logger.info("failed with error for message {}: {}", msg, e);
+                    logger.info("failed with error for message {}: {}", msg, e.getMessage());
                 }
             }
         }
