@@ -27,15 +27,15 @@ public class Listener {
 
         for (KafkaMessage msg : msgs) {
             if (msg.messages.isEmpty() && msg != KafkaMessage.INVALID) {
-                logger.info("received empty message");
+                logger.warn("received empty message");
             } else if (!msg.messages.isEmpty()){
                 try {
                     repo.save(msg.messages);
-                    logger.info("received messages: {}", msg.messages);
+                    logger.debug("received messages: {}", msg.messages);
                 } catch (TransientDataAccessException temporary) {
                     throw temporary;
                 } catch (DataAccessException e) {
-                    logger.info("failed with error for message {}: {}", msg, e.getMessage());
+                    logger.error("failed with error for message {}: {}", msg, e.getMessage());
                 }
             }
         }
@@ -44,7 +44,7 @@ public class Listener {
     public static class IncorrectMessageHandler implements Function<FailedDeserializationInfo, KafkaMessage> {
         @Override
         public KafkaMessage apply(FailedDeserializationInfo info) {
-            logger.info("received invalid message: {}", new String(info.getData()));
+            logger.warn("received invalid message: {}", new String(info.getData()));
             return KafkaMessage.INVALID;
         }
     }
