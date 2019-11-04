@@ -1,4 +1,6 @@
 .gradle
+.idea
+postgres-data
 /build/
 
 # Ignore Gradle GUI config

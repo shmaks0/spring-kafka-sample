@@ -1,0 +1,46 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.0.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'java'
+}
+
+group = 'org.shmaks'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+springBoot {
+	mainClassName = 'org.shmaks.kafkasample.KafkaSampleApplication'
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+	implementation 'org.springframework.kafka:spring-kafka'
+
+	implementation "org.flywaydb:flyway-core"
+	runtimeOnly 'org.postgresql:postgresql'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testImplementation 'org.springframework.kafka:spring-kafka-test'
+	testImplementation 'org.testcontainers:postgresql:1.12.3'
+}
+
+test {
+	useJUnitPlatform() {
+		excludeTags 'integration-test'
+	}
+}
+
+task integrationTest(type: Test) {
+	useJUnitPlatform() {
+		includeTags 'integration-test'
+	}
+
+	shouldRunAfter test
+}

@@ -1,0 +1,19 @@
+spring:
+  kafka:
+    bootstrap-servers: ${shmaks-kafka.broker}
+    consumer:
+      bootstrap-servers: ${spring.kafka.bootstrap-servers}
+      group-id: ${shmaks-kafka.consumer-group-id}
+      auto-offset-reset: earliest
+      fetch-max-wait: ${shmaks-kafka.batch.max-wait-secs}s
+      fetch-min-size: ${shmaks-kafka.batch.min-size-bytes}
+      max-poll-records: 5000000
+    listener:
+      concurrency: ${shmaks-kafka.concurrency}
+      client-id: ${shmaks-kafka.client-id}
+      type: BATCH
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${shmaks-kafka.pg.url}
+    username: ${shmaks-kafka.pg.username}
+    password: ${shmaks-kafka.pg.password}
