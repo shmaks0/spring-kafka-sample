@@ -28,7 +28,7 @@ public class Listener {
         for (KafkaMessage msg : msgs) {
             if (msg.messages.isEmpty() && msg != KafkaMessage.INVALID) {
                 logger.info("received empty message");
-            } else {
+            } else if (!msg.messages.isEmpty()){
                 try {
                     repo.save(msg.messages);
                     logger.info("received messages: {}", msg.messages);
